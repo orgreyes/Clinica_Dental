@@ -27,37 +27,34 @@
 
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0" style="margin: 0;">
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="/ejemplo/"><i
+                        <a class="nav-link" aria-current="page" href="/Clinica_Dental/"><i
                                 class="bi bi-house-fill me-2"></i>Inicio</a>
                     </li>
 
-                    <div class="nav-item dropdown ">
-                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                            <i class="bi bi-gear me-2"></i>Menu
+                    <li>
+                        <a class="dropdown-item nav-link text-white" href="/Clinica_Dental/pacientes">
+                            <i class="ms-lg-0 ms-2 bi bi-person me-2"></i>Registro de Pacientes
                         </a>
-                        <ul class="dropdown-menu  dropdown-menu-dark " id="dropwdownRevision" style="margin: 0;">
+                    </li>
 
-                            <li>
-                                <a class="dropdown-item nav-link text-white" href="/Clinica_Dental/pacientes">
-                                    <i class="ms-lg-0 ms-2 bi bi-person me-2"></i>Registro de Pacientes
-                                </a>
-                            </li>
-
-                            <li>
-                                <a class="dropdown-item nav-link text-white" href="/Clinica_Dental/nueva">
-                                    <i class="ms-lg-0 ms-2 bi bi-file-medical me-2"></i>Fichas Médicas
-                                </a>
-                            </li>
+                    <li>
+                        <a class="dropdown-item nav-link text-white" href="/Clinica_Dental/nueva">
+                            <i class="ms-lg-0 ms-2 bi bi-file-medical me-2"></i>Fichas Médicas
+                        </a>
+                    </li>
 
 
-                            <li>
-    <a class="dropdown-item nav-link text-white" href="/Clinica_Dental/nueva">
-        <i class="ms-lg-0 ms-2 bi bi-journal me-2"></i>Diario de visitas
-    </a>
-</li>
+                    <li>
+                        <a class="dropdown-item nav-link text-white" href="/Clinica_Dental/nueva">
+                            <i class="ms-lg-0 ms-2 bi bi-journal me-2"></i>Diario de visitas
+                        </a>
+                    </li>
 
-                        </ul>
-                    </div>
+                    <li>
+                        <a class="dropdown-item nav-link text-white" href="/Clinica_Dental/nueva">
+                            <i class="ms-lg-0 ms-2 fas fa-pills me-2"></i>Trataminetos
+                        </a>
+                    </li>
 
                 </ul>
                 <div class="col-lg-1 d-grid mb-lg-0 mb-2">

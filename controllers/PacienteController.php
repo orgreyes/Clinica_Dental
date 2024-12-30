@@ -14,34 +14,65 @@ public static function index(Router $router){
 
         $router->render('pacientes/index', []);
 }
+
+
+//!Funcion Guardar
+public static function guardarAPI() {
+    try {
+
+    //     $sql = "SELECT * FROM pacientes";
+    //     $consulta = Aprobado::fetchArray($sql);
     
- //!Funcion Buscar en el Mapa
-public static function buscarMapaAPI(){
-        $mis_nombre = $_GET['mis_nombre'] ?? '';
-        $sql = "SELECT * FROM cont_misiones_contingente WHERE mis_situacion = '1'";
-    
-        try {
-            $cont_misiones_contingente = Paciente::fetchArray($sql); 
-            echo json_encode($cont_misiones_contingente);
-        } catch (Exception $e) {
+    // echo json_encode([$_POST]);
+    // exit; 
+        $pacienteData = $_POST;
+        $paciente = new Paciente($pacienteData);
+        $resultado = $paciente->crear();
+        
+        if ($resultado['resultado'] == 1) {
             echo json_encode([
-                'detalle' => $e->getMessage(),
-                'mensaje' => 'Ocurrió un error',
+                'mensaje' => 'Datos del Paciente guardados correctamente',
+                'codigo' => 1,
+                'paciente' => $pacienteData
+            ]);
+        } else {
+            echo json_encode([
+                'mensaje' => 'No se pudo guardar los datos del paciente',
                 'codigo' => 0
             ]);
         }
+    } catch (Exception $e) {
+        echo json_encode([
+            'detalle' => $e->getMessage(),
+            'mensaje' => 'El DPI que ingresó ya existe en la base de datos',
+            'codigo' => 0
+        ]);
+    }
 }
 
-//!Funcion Buscar los registros
-public static function buscarAPI(){
-    $mis_nombre = $_GET['mis_nombre'] ?? '';
 
-    $sql = "SELECT * FROM cont_misiones_contingente WHERE mis_situacion = 1 ";
+
+
+
+//!Funcion Buscar
+public static function buscarAPI(){
+    $sql = "SELECT * FROM pacientes WHERE pac_situacion = 1 ";
     
-     $sql = "SELECT mis_id, mis_nombre, 
-                mis_latitud, mis_longitud
-            FROM cont_misiones_contingente
-            WHERE mis_situacion = 1";
+     $sql = "SELECT 
+                pac_nom1 || ' ' || NVL(pac_nom2, '') || ' ' || pac_ape1 || ' ' || NVL(pac_ape2, '') AS nombre,
+                pac_id,
+                pac_genero, 
+                pac_edad, 
+                pac_direccion, 
+                pac_tel1, 
+                pac_tel2, 
+                pac_ant_per,
+                pac_ant_fam, 
+                pac_consu_medica
+            FROM 
+                pacientes
+            WHERE 
+                pac_situacion = 1";
 
      try {
 
@@ -57,45 +88,19 @@ public static function buscarAPI(){
      }
 }
 
-//!Funcion Guardar
-public static function guardarAPI(){
-    try {
-        $misionData = $_POST;
-
-        $mision = new Paciente($misionData);
-        $resultado = $mision->crear();
-
-        if ($resultado['resultado'] == 1) {
-            echo json_encode([
-                'mensaje' => 'Registro guardado correctamente',
-                'codigo' => 1
-            ]);
-        } else {
-            echo json_encode([
-                'mensaje' => 'Ocurrió un error',
-                'codigo' => 0
-            ]);
-        }
-    } catch (Exception $e) {
-        echo json_encode([
-            'detalle' => $e->getMessage(),
-            'mensaje' => 'Ocurrió un error',
-            'codigo' => 0
-        ]);
-    }
-}
-
 //!Funcion Eliminar
 public static function eliminarAPI(){
      try{
-         $mis_id = $_POST['mis_id'];
-         $mision = Paciente::find($mis_id);
-         $mision->mis_situacion = 0;
-         $resultado = $mision->actualizar();
+         $pac_id = $_POST['pac_id'];
+        //   echo json_encode([$pac_id]);
+        //  exit;
+         $paciente = Paciente::find($pac_id);
+         $paciente->pac_situacion = 0;
+         $resultado = $paciente->actualizar();
 
          if($resultado['resultado'] == 1){
              echo json_encode([
-                 'mensaje' => 'Datos de la Paciente Eliminada correctamente',
+                 'mensaje' => 'Datos de la Paciente Eliminados correctamente',
                  'codigo' => 1
              ]);
          }else{
@@ -116,9 +121,9 @@ public static function eliminarAPI(){
 //!Funcion Modificar
 public static function modificarAPI() {
      try {
-         $misionData = $_POST;
+         $pacienteData = $_POST;
  
-         foreach ($misionData as $campo => $valor) {
+         foreach ($pacienteData as $campo => $valor) {
              if (empty($valor)) {
                  echo json_encode([
                      'mensaje' => 'Llene Todos Los Campos',
@@ -128,10 +133,10 @@ public static function modificarAPI() {
              }
          }
 
-         $misionData['mis_situacion'] = 1;
+         $pacienteData['mis_situacion'] = 1;
  
-         $mision = new Paciente($misionData);
-         $resultado = $mision->actualizar();
+         $paciente = new Paciente($pacienteData);
+         $resultado = $paciente->actualizar();
  
          if ($resultado['resultado'] == 1) {
              echo json_encode([

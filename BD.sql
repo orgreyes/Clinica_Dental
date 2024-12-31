@@ -14,9 +14,9 @@ CREATE TABLE pacientes (
     pac_direccion VARCHAR(75),
     pac_tel1 INT,
     pac_tel2 INT,
-    pac_ant_per CHAR(300),
-    pac_ant_fam CHAR(300),
-    pac_consu_medica CHAR(200),
+    pac_ant_per VARCHAR(200),
+    pac_ant_fam VARCHAR(200),
+    pac_consu_medica VARCHAR(200),
     pac_situacion SMALLINT
 );
 

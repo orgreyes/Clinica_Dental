@@ -4,11 +4,12 @@ import { lenguaje } from "../lenguaje";
 import { validarFormulario, Toast } from "../funciones";
 import Datatable from "datatables.net-bs5";
 const formulario = document.querySelector('form');
-const btnBuscar = document.getElementById('btnBuscar');
 const btnModificar = document.getElementById('btnModificar');
-const btnGuardar = document.getElementById('btnGuardar');
 const btnCancelar = document.getElementById('btnCancelar');
+const btnBuscar = document.getElementById('btnBuscar');
+const btnGuardar = document.getElementById('btnGuardar');
 const tablaPacienteContainer = document.getElementById('tablaPacienteContainer');
+
 
 let contenedor = 1;
 
@@ -52,7 +53,11 @@ const datatable = new Datatable('#tablaPaciente', {
             data: 'pac_id',
             searchable: false,
             orderable: false,
-            render: (data, type, row, meta) => `<button class="btn btn-warning bi bi-pen" data-id='${data}' data-nombre='${row["nombre"]}' data-direccion='${row["pac_direccion"]}' data-genero='${row["pac_genero"]}' data-telefono1='${row["pac_tel1"]}' data-telefono2='${row["pac_tel2"]}' data-edad='${row["pac_edad"]}' data-ant_per='${row["pac_ant_per"]}' data-ant_fam='${row["pac_ant_fam"]}'   data-medicamento_consu='${row["pac_consu_medica"]}'  >Modificar Datos</button>`
+            render: (data, type, row, meta) => `<button class="btn btn-warning bi bi-pen" data-id='${data}'  
+            data-nom1='${row["pac_nom1"]}'
+            data-nom2='${row["pac_nom2"]}'
+            data-ape1='${row["pac_ape1"]}'
+            data-ape2='${row["pac_ape2"]}' data-direccion='${row["pac_direccion"]}'data-genero='${row["pac_genero"]}' data-telefono1='${row["pac_tel1"]}' data-telefono2='${row["pac_tel2"]}' data-edad='${row["pac_edad"]}' data-ant_per='${row["pac_ant_per"]}' data-ant_fam='${row["pac_ant_fam"]}'   data-medicamento_consu='${row["pac_consu_medica"]}'  >Modificar Datos</button>`
         },
         {
             title: 'ELIMINAR',
@@ -64,9 +69,16 @@ const datatable = new Datatable('#tablaPaciente', {
     ]
 })
 
+
+
+
+
+
 //Ya Está
 //!!BUSCAR
 const buscar = async () => {
+
+
     contenedor = 1;
 
     const url = `/Clinica_Dental/API/pacientes/buscar`;
@@ -93,7 +105,7 @@ const buscar = async () => {
         // console.log(error);
     }
 }
-buscar();
+
 // Ya Está
 
 
@@ -208,89 +220,83 @@ const eliminar = async (e) => {
 
 //!!TRAER DATOS
 const traeDatos = (e) => {
+
     const button = e.target;
     const id = button.dataset.id
-    const nombre = button.dataset.nombre
+    const nom1 = button.dataset.nom1
+    const nom2 = button.dataset.nom2
+    const ape1 = button.dataset.ape1
+    const ape2 = button.dataset.ape2
     const genero = button.dataset.genero
     const edad = button.dataset.edad
     const direccion = button.dataset.direccion
     const telefono1 = button.dataset.telefono1
     const telefono2 = button.dataset.telefono2
-    const antecedentes_per = button.dataset.antecedentes_per
-    const pac_ant_fam = button.dataset.pac_ant_fam
     const ant_per = button.dataset.ant_per
     const ant_fam = button.dataset.ant_fam
     const medicamento_consu = button.dataset.medicamento_consu
 
     const dataset = {
         id,
-        nombre,
+        nom1,
+        nom2,
+        ape1,
+        ape2,
         genero,
         direccion,
         edad,
         telefono1,
         telefono2,
-        antecedentes_per,
-        pac_ant_fam,
         ant_per,
         ant_fam,
         medicamento_consu,
     };
+    // console.log({dataset});
+    // return;
+
+    //! Llenar el formulario con los datos obtenidos
+    formulario.pac_id.value = dataset.id;
+    formulario.pac_nom1.value = dataset.nom1;
+    formulario.pac_nom2.value = dataset.nom2;
+    formulario.pac_ape1.value = dataset.ape1;
+    formulario.pac_ape2.value = dataset.ape2;
+    formulario.pac_genero.value = dataset.genero;
+    formulario.pac_direccion.value = dataset.direccion;
+    formulario.pac_edad.value = dataset.edad;
+    formulario.pac_tel1.value = dataset.telefono1;
+    formulario.pac_tel2.value = dataset.telefono2;
+    formulario.pac_ant_per.value = dataset.ant_per;
+    formulario.pac_ant_fam.value = dataset.ant_fam;
+    formulario.pac_consu_medica.value = dataset.medicamento_consu;
 
 
-    colocarDatos(dataset);
+    window.scrollTo(0, 125);
 
-    const body = new FormData(formulario);
-    body.append('pac_id', id);
-    body.append('pac_nom1', nombre);
-    body.append('pac_genero', genero);
-    body.append('pac_direccion', direccion);
-    body.append('pac_edad', edad);
-    body.append('pac_tel1', telefono1);
+    btnGuardar.style.display = 'none';
+    btnModificar.style.display = 'block';
+    btnCancelar.style.display = 'block';  
 };
 
-//!!COLOCAR DATOS
-const colocarDatos = (dataset) => {
-    formulario.pac_edad.value = dataset.edad;
-    formulario.pac_id.value = dataset.id;
-    formulario.pac_nom1.value = dataset.nombre;
-    formulario.pac_direccion.value = dataset.direccion;
-    formulario.pac_genero.value = dataset.genero;
-    formulario.pac_tel1.value = dataset.telefono1;
 
-
-    btnGuardar.disabled = true
-    btnGuardar.parentElement.style.display = 'none'
-    // btnBuscar.disabled = true
-    // btnBuscar.parentElement.style.display = 'none'
-    // btnModificar.disabled = false
-    // btnModificar.parentElement.style.display = ''
-    // btnCancelar.disabled = false
-    // btnCancelar.parentElement.style.display = ''
-    //divTabla.style.display = 'none'
-
-
-}
 
 //!MODIFICAR
 const modificar = async () => {
-    if (!validarFormulario(formulario)) {
+    if (!validarFormulario(formulario, ['pac_id','pac_nom2','pac_ape2','pac_direccion','pac_tel2','pac_ant_per','pac_ant_fam','pac_consu_medica','pac_situacion'])) {
         Toast.fire({
             icon: 'info',
             text: 'Debe llenar todos los datos'
         });
-        return
+        return;
     }
 
     const body = new FormData(formulario)
-    const url = 'pacientes/modificar';
+    const url = `/Clinica_Dental/API/pacientes/modificar`;
     const config = {
         method: 'POST',
         body
     }
 
     try {
-        // fetch(url, config).then( (respuesta) => respuesta.json() ).then(d => data = d)
         const respuesta = await fetch(url, config)
         const data = await respuesta.json();
 
@@ -299,9 +305,12 @@ const modificar = async () => {
         switch (codigo) {
             case 1:
                 formulario.reset();
+                btnModificar.style.display = 'none';
+                btnCancelar.style.display = 'none';
+                // Mostrar el botón btnGuardar
+                btnGuardar.style.display = 'block';
                 icon = 'success';
                 buscar();
-                cancelarAccion();
                 break;
 
             case 0:
@@ -323,14 +332,35 @@ const modificar = async () => {
     }
 }
 
+btnCancelar.addEventListener('click', (evento) => {
+    evento.preventDefault();
+    // Ocultar los botones btnModificar y btnCancelar
+    btnModificar.style.display = 'none';
+    btnCancelar.style.display = 'none';
+    // Mostrar el botón btnGuardar
+    btnGuardar.style.display = 'block';
+    formulario.reset();
+});
 
+btnGuardar.addEventListener('click', guardar)
 
-// buscar();
+btnModificar.addEventListener('click', async (evento) => {
+    // Prevenir el comportamiento predeterminado del botón
+    evento.preventDefault();
 
-formulario.addEventListener('submit', guardar)
-// btnBuscar.addEventListener('click', buscar)
-// btnCancelar.addEventListener('click', cancelarAccion)
-// btnModificar.addEventListener('click', modificar)
-datatable.on('click','.btn-warning', colocarDatos)
+    // Deshabilitar el botón para prevenir múltiples clics
+    btnModificar.disabled = true;
+
+    // Llamar a la función modificar
+    await modificar();
+
+    // Volver a habilitar el botón después de que la operación haya finalizado
+    btnModificar.disabled = false;
+});
+
 datatable.on('click','.btn-warning', traeDatos )
  datatable.on('click','.btn-danger', eliminar )
+
+ buscar();
+
+ 

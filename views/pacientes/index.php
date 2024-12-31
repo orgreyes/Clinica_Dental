@@ -72,6 +72,7 @@
             <div class="row">
 
                 <div class="col-md-12">
+                <input type="hidden" name="pac_id" id="pac_id">
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
@@ -145,9 +146,9 @@
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label for="pac_ant_per"><i class="fas fa-file-alt"></i> Antecedentes
+                            <label for="pac_ant_fam"><i class="fas fa-file-alt"></i> Antecedentes
                                 Familiares:</label>
-                            <textarea type="text" class="form-control" id="pac_ant_per" name="pac_ant_per"
+                            <textarea type="text" class="form-control" id="pac_ant_fam" name="pac_ant_fam"
                                 placeholder="Antecedentes Familiares (OPCIONAL)"></textarea>
                         </div>
 
@@ -165,6 +166,19 @@
                                 <i class="fas fa-save"></i> Guardar Paciente
                             </button>
                         </div>
+
+                        <div class="col-md-6 offset-md-3">
+                            <!-- Botón de Modificar -->
+                            <button id="btnModificar" class="btn btn-warning bi bi-pen w-100" style="display: none;">
+                                 Modificar Datos
+                            </button>
+                            <br>
+                            <!-- Botón de Modificar -->
+                            <button id="btnCancelar" class="btn btn-danger bi bi-x w-100" style="display: none;">
+                                Cancelar
+                            </button>
+                        </div>
+                        
                     </div>
 
                 </div>

@@ -60,6 +60,10 @@ public static function buscarAPI(){
     
      $sql = "SELECT 
                 pac_nom1 || ' ' || NVL(pac_nom2, '') || ' ' || pac_ape1 || ' ' || NVL(pac_ape2, '') AS nombre,
+                pac_nom1,
+                pac_nom2,
+                pac_ape1,
+                pac_ape2,
                 pac_id,
                 pac_genero, 
                 pac_edad, 
@@ -72,7 +76,8 @@ public static function buscarAPI(){
             FROM 
                 pacientes
             WHERE 
-                pac_situacion = 1";
+                pac_situacion = 1
+";
 
      try {
 
